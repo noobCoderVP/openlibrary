@@ -46,7 +46,7 @@ body:
     attributes:
       label: Stakeholders
       description: Tag stakeholders of this feqture request if any
-      placeholder: \@ tag stakeholders related to this feature request
+      placeholder: @ tag stakeholders related to this feature request
 
   - type: dropdown
     attributes:
