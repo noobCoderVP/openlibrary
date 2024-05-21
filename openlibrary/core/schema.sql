@@ -107,3 +107,29 @@ CREATE TABLE wikidata (
     data json,
     updated timestamp without time zone default (current_timestamp at time zone 'utc')
 )
+
+CREATE TABLE battles (
+    id serial not null primary key,
+    submitted_by text not null,
+    genre text not null,
+    book1 text not null,
+    book2 text not null,
+    comment text,
+    winner text not null,
+    created timestamp without time zone default (current_timestamp at time zone 'utc'),
+    updated timestamp without time zone default (current_timestamp at time zone 'utc'),
+)
+
+CREATE TABLE battle_history_book (
+    book_id text not null primary key,
+    genre text not null,
+    battles int default 0,
+    wins int default 0,
+    losses int default 0,
+)
+
+CREATE INDEX battles_idx ON battles (submitted_by);
+CREATE INDEX battles_idx ON battles (genre);
+CREATE INDEX battles_idx ON battle_history_book (genre);
+
+INSERT INTO battles (submitted_by, genre, book1, book2, comment, winner) VALUES ("vaibhav", "game", "OL37079411M", "OL32377611M", "I loved that book, interesting", "OL37079411M");
