@@ -231,6 +231,12 @@ class team(delegate.page):
     def GET(self):
         return render_template("about/index.html")
 
+class battles(delegate.page):
+    path = '/battles'
+
+    def GET(self):
+        return render_template("battles/index.html")
+
 
 class addbook(delegate.page):
     path = '/addbook'
