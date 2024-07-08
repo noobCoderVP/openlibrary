@@ -170,6 +170,7 @@ $if is_privileged_user:
   $:render_template("type/edition/admin_bar", work, edition, ocaid)
 
 $ component_times['ReadlogStats'] = time()
+$ number_of_awards = macros.BestbookTrophies(work, awards=12)
 $ star_ratings_stats = macros.StarRatingsStats(work)
 $ component_times['ReadlogStats'] = time() - component_times['ReadlogStats']
 
@@ -205,7 +206,7 @@ $ worldcat_links = macros.WorldcatLink(isbn=isbn_13 or isbn_10, oclc_numbers=ocl
     <!-- (mobile only) -->
     $:macros.EditionNavBar(reader_observations, work.edition_count, show_observations)
     <a id="overview-mobile" name="overview-mobile" class="section-anchor section-anchor--no-height"></a>
-    $:render_template("type/edition/title_and_author", page, work, edition, ocaid, work_title, star_ratings_stats, for_desktop=False)
+    $:render_template("type/edition/title_and_author", page, work, edition, ocaid, work_title, star_ratings_stats, number_of_awards, for_desktop=False)
     <div class="editionCover">
       $:macros.databarWork(edition or work, worldcat_links, affiliate_links, editions_page=True, render_times=component_times)
     </div>
@@ -219,7 +220,7 @@ $ worldcat_links = macros.WorldcatLink(isbn=isbn_13 or isbn_10, oclc_numbers=ocl
       </div>
       <a id="overview" name="overview" class="section-anchor section-anchor--no-height"></a>
       <!-- (desktop only) -->
-      $:render_template("type/edition/title_and_author", page, work, edition, ocaid, work_title, star_ratings_stats, for_desktop=True)
+      $:render_template("type/edition/title_and_author", page, work, edition, ocaid, work_title, star_ratings_stats, number_of_awards, for_desktop=True)
 
       $if page.type.key in ["/type/work", "/type/edition", "/type/author"]:
         $if edition and page.type.key in ["/type/work"]:
@@ -506,6 +507,10 @@ $ worldcat_links = macros.WorldcatLink(isbn=isbn_13 or isbn_10, oclc_numbers=ocl
         $ component_times['Review component'] = time()
         $:render_template("observations/review_component", work, reader_observations, page.key)
         $ component_times['Review component'] = time() - component_times['Review component']
+
+      $if show_observations:
+        $:render_template("observations/bestbook_component", work, reader_observations, page.key)
+
       <a id="lists-section" name="lists-section tab-section" class="section-anchor"></a>
       <div class="workFooter tab-section">
         $# pages like /books/ia:foo00bar are fake records created from metadata API.

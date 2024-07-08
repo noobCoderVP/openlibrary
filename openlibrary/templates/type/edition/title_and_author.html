@@ -1,4 +1,4 @@
-$def with (page, work, edition, ocaid, work_title, star_ratings_stats, for_desktop=False)
+$def with (page, work, edition, ocaid, work_title, star_ratings_stats, number_of_awards, for_desktop=False)
 
 $def icon_link(link_class, img_src, link_text, login_redirect=True, ga_data=None):
   $ href = 'javascript:;'
@@ -44,6 +44,7 @@ $ view_type = 'desktop' if for_desktop else 'mobile'
       <h2 class="edition-byline">
         $:macros.BookByline([{'name': name} for name in author_names], attrs='itemprop="author"')
       </h2>
+    $:number_of_awards
     $:star_ratings_stats
   </span>
 

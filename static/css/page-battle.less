@@ -1,4 +1,33 @@
 @import (less) "less/colors.less";
+/**
+ * Stylesheet for [i.e. book battles]
+
+ * Used in templates:
+ * - openlibrary/templates/battles/battle.html
+ *
+ * Used on pages:
+ * - /battles/book-battle [sub in your url here]
+ */
+
+ @import (less) "less/index.less";
+
+ // Import all base styles
+ @import (less) "base/index.less";
+ 
+ // Import colors
+ @import (less) "less/colors.less";
+ 
+ // Import fonts
+ @import (less) "less/font-families.less";
+ 
+ // Layout rules
+ @import (less) "layout/index.less";
+ 
+ // Components (modules) in order of appearance on page
+ @import (less) "components/header.less";
+ // add any other components you know you need here
+ @import (less) "components/footer.less";
+ @import (less) "components/language.less";
 
 .book_card {
     width: 250px;

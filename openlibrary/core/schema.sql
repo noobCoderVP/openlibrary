@@ -108,6 +108,21 @@ CREATE TABLE wikidata (
     updated timestamp without time zone default (current_timestamp at time zone 'utc')
 )
 
+CREATE TABLE nominations {
+    nomination_id serial not null primary key,
+    book_id text not null,
+    topic text not null,
+    created_on timestamp without time zone default (current_timestamp at time zone 'utc')
+}
+
+CREATE TABLE best_books {
+    award_id serial not null primary key,
+    nomination_id serial references nominations(nomination_id) ON DELETE NO ACTION,
+    awarded_by text not null,
+    comment text not null,
+    awarded_on timestamp without time zone default (current_timestamp at time zone 'utc')
+}
+
 CREATE TABLE battles (
     id serial not null primary key,
     submitted_by text not null,
