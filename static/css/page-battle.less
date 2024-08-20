@@ -29,11 +29,57 @@
  @import (less) "components/footer.less";
  @import (less) "components/language.less";
 
-.book_card {
+
+ .book_card {
     width: 250px;
     height: 400px;
 }
 
 .battles_div {
     display: flex;
+}
+
+
+.battle_div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.battle_books {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.battle_book_img {
+    width: 250px;
+    height: 400px;
+}
+
+.battle_vs {
+    font-size: 40px;
+}
+
+.battle_submit_btn {
+    font-size: 25px;
+    background-color: blue;
+    padding: 5px 10px;
+    color: white;
+    border: none;
+    border-radius: 2px;
+}
+/* 
+.battle_comment_textarea {
+    width: 400px
+} */
+
+.battle_winner {
+    border: 4px solid green;
+}
+
+.battle_looser {
+    border: 4px solid red;
 }
