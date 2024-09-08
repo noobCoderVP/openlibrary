@@ -1869,8 +1869,7 @@ msgstr ""
 msgid "Followers"
 msgstr ""
 
-#: account/view.html type/edition/modal_links.html
-#: type/edition/title_and_author.html
+#: account/view.html type/edition/title_and_author.html
 msgid "Share"
 msgstr ""
 
