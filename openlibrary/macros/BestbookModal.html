@@ -23,6 +23,9 @@ $# show edition cover if edition, else if work cover for work
 $ work_key = work.key
 $ src = '/images/icons/avatar_book.png'
 
+$ work_id = ""
+$ edition_id = ""
+
 $if edition_key:
   $ edition_id = edition_key.split('/')[-1]
   $ src = "https://covers.openlibrary.org/b/olid/{}-M.jpg".format(edition_id)
@@ -40,14 +43,13 @@ $# Render the subject input field
 $jsdef render_subject_field_bestbook(name, data):
     <div class="input">
         $code:
-            subject_str = data[-1] if len(data) else ""
-            rows = len(subject_str) // 95 + 1
-        <textarea name="topic" rows="$rows" placeholder="$default_topic" wrap="soft" tabindex="0"></textarea>
+            subject_str = data if len(data) else ""
+        <input name="topic" placeholder="$default_topic" wrap="soft" value="$subject_str" />
     </div>
 
 $jsdef render_subject_autocomplete_item(item):
     <div class="ac_subject" title="$_('Select this subject')">
-        <span class="name">$item.name</span>
+        <span class="name">$item.label</span>
     </div>
 
 <div class="$classes">
@@ -70,8 +72,10 @@ $jsdef render_subject_autocomplete_item(item):
           </div>
           <form id="ratingsForm" method="POST" action="$(work.key)/awards.json" vocab="http://schema.org/" typeof="Books" class="bestbook">
             <label for="topic">$_("On what topic?")</label>
-            $ config = {'name': 'topic', 'facet': 'subject', 'data': []}
-            <div class="csv-autocomplete--subjects" data-config="$dumps(config)">
+
+            $ config = {'name': 'topics', 'facet': 'subject', 'work_key': work_key, 'data': default_topic if default_topic else ''}
+
+            <div class="csv-autocomplete--book-subject" data-config="$dumps(config)">
                 $:render_subject_field_bestbook(config['name'], config['data'])
             </div>
 

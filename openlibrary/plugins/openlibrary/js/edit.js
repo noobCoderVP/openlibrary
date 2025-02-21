@@ -371,22 +371,47 @@ export function initSubjectsAutocomplete() {
         );
     });
 
-    getJqueryElements('.csv-autocomplete--awards').forEach(jqueryElement => {
+    /* Resize textarea to fit on input */
+    $('.csv-autocomplete--subjects textarea, .csv-autocomplete--awards textarea').on('input', function () {
+        this.style.height = 'auto';
+        this.style.height = `${this.scrollHeight + 5}px`;
+    });
+}
+
+export function initBookSubjectsAutocomplete() {
+    initAutocomplete();
+
+    getJqueryElements('.csv-autocomplete--book-subject').forEach(jqueryElement => {
         const dataConfig = JSON.parse(jqueryElement[0].dataset.config);
-        jqueryElement.setup_csv_autocomplete(
-            'textarea',
-            {
-                endpoint: `/subjects_autocomplete?work_id=${dataConfig.work_id}`,
-                addnew: false,
-            },
-            {
-                formatItem: render_subject_autocomplete_item,
-            }
-        );
+        console.log(dataConfig);
+    
+        jqueryElement.find('input').each(function() {
+            $(this).setup_single_autocomplete(
+                {
+                    endpoint: `/topics_autocomplete.json?work_key=${dataConfig.work_key}`,
+                    addnew: false,
+                },
+                {
+                    formatItem: render_subject_autocomplete_item,
+                    minChars: 0,
+                    autoFill: true,
+                    select: function (_event, ui) {
+                        var item = ui.item;
+                        this.value = "Hello world";
+                        console.log(ui.item);
+                        dataConfig.data = ui.item.value;
+                        container[0].dataset.config = JSON.stringify(dataConfig);
+                        setTimeout(function () {
+                            $this.addClass("accept");
+                        }, 0);
+                    },
+                }
+            );
+        });
     });
 
     /* Resize textarea to fit on input */
-    $('.csv-autocomplete--subjects textarea, .csv-autocomplete--awards textarea').on('input', function () {
+    $('.csv-autocomplete--book-subject textarea').on('input', function () {
         this.style.height = 'auto';
         this.style.height = `${this.scrollHeight + 5}px`;
     });

@@ -310,4 +310,12 @@ export function init() {
             setup_autocomplete(this, ol_ac_opts, options);
         });
     };
+
+    $.fn.setup_single_autocomplete = function (ol_ac_opts, ac_opts) {
+        // Iterate over each element in the jQuery object
+        return this.each(function () {
+            // Call the setup_autocomplete function for each element
+            setup_autocomplete(this, ol_ac_opts, ac_opts);
+        });
+    };
 }

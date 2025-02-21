@@ -97,6 +97,7 @@ jQuery(function () {
     const autocompleteWorks = document.querySelector('.multi-input-autocomplete--works');
     const autocompleteSeeds = document.querySelector('.multi-input-autocomplete--seeds');
     const autocompleteSubjects = document.querySelector('.csv-autocomplete--subjects');
+    const autocompleteBookSubjects = document.querySelector('.csv-autocomplete--book-subject');
     const addRowButton = document.getElementById('add_row_button');
     const roles = document.querySelector('#roles');
     const identifiers = document.querySelector('#identifiers');
@@ -108,7 +109,7 @@ jQuery(function () {
     if (
         edition ||
         autocompleteAuthor || autocompleteLanguage || autocompleteWorks ||
-        autocompleteSeeds || autocompleteSubjects ||
+        autocompleteSeeds || autocompleteSubjects || autocompleteBookSubjects ||
         addRowButton || roles || identifiers || classifications ||
         excerpts || links
     ) {
@@ -146,6 +147,9 @@ jQuery(function () {
                 }
                 if (autocompleteSubjects) {
                     module.initSubjectsAutocomplete();
+                }
+                if (autocompleteBookSubjects) {
+                    module.initBookSubjectsAutocomplete();
                 }
                 if (autocompleteSeeds) {
                     module.initSeedsMultiInputAutocomplete();
