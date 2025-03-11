@@ -384,30 +384,19 @@ export function initBookSubjectsAutocomplete() {
     getJqueryElements('.csv-autocomplete--book-subject').forEach(jqueryElement => {
         const dataConfig = JSON.parse(jqueryElement[0].dataset.config);
         console.log(dataConfig);
-    
-        jqueryElement.find('input').each(function() {
-            $(this).setup_single_autocomplete(
-                {
-                    endpoint: `/topics_autocomplete.json?work_key=${dataConfig.work_key}`,
-                    addnew: false,
-                },
-                {
-                    formatItem: render_subject_autocomplete_item,
-                    minChars: 0,
-                    autoFill: true,
-                    select: function (_event, ui) {
-                        var item = ui.item;
-                        this.value = "Hello world";
-                        console.log(ui.item);
-                        dataConfig.data = ui.item.value;
-                        container[0].dataset.config = JSON.stringify(dataConfig);
-                        setTimeout(function () {
-                            $this.addClass("accept");
-                        }, 0);
-                    },
-                }
-            );
-        });
+
+        jqueryElement.setup_single_autocomplete(
+            'input',
+            {
+                endpoint: `/topics_autocomplete.json?work_key=${dataConfig.work_key}`,
+                addnew: false,
+            },
+            {
+                formatItem: render_subject_autocomplete_item,
+                minChars: 0,
+                autoFill: true,
+            }
+        );
     });
 
     /* Resize textarea to fit on input */

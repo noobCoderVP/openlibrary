@@ -311,11 +311,53 @@ export function init() {
         });
     };
 
-    $.fn.setup_single_autocomplete = function (ol_ac_opts, ac_opts) {
-        // Iterate over each element in the jQuery object
-        return this.each(function () {
-            // Call the setup_autocomplete function for each element
-            setup_autocomplete(this, ol_ac_opts, ac_opts);
+    $.fn.setup_single_autocomplete = function (autocomplete_selector,ol_ac_opts, ac_opts) {
+
+        const container = $(this);
+        console.log('Container: ', container);
+
+        const dataConfig = JSON.parse(container[0].dataset.config);
+        console.log('dataConfig: ', dataConfig);
+
+        const default_ac_opts = {
+            minChars: 0,
+            max: 25,
+            autoFill: true,
+            // termPreprocessor: function (subject_string) {
+            //     const terms = splitField(subject_string);
+            //     if (terms.length !== dataConfig.data.length) {
+            //         return terms.pop();
+            //     } else {
+            //         $("ul.ui-autocomplete").hide();
+            //         return "";
+            //     }
+            // },
+            select: function (event, ui) {
+                console.log('Event: ', event);
+                console.log('UI: ', ui);
+
+                console.log('Value: ', this.value);
+                dataConfig.data = this.value;
+                container[0].dataset.config = JSON.stringify(dataConfig);
+                $(this).trigger('input');
+                return true;
+            },
+            // response: function (event, ui) {
+            //     /* Remove any entries already on the list */
+            //     const terms = splitField(this.value);
+            //     ui.content.splice(
+            //         0,
+            //         ui.content.length,
+            //         ...ui.content.filter(
+            //             (record) => !terms.includes(record.value)
+            //         )
+            //     );
+            // },
+        };
+
+        container.find(autocomplete_selector).each(function () {
+            const options = $.extend(default_ac_opts, ac_opts);
+            setup_autocomplete(this, ol_ac_opts, options);
         });
     };
 }

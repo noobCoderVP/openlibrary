@@ -1,6 +1,7 @@
 import itertools
 import web
 import json
+from thefuzz import fuzz
 
 
 from infogami.utils import delegate
@@ -97,7 +98,9 @@ class languages_autocomplete(delegate.page):
         i = web.input(q="", limit=5)
         i.limit = safeint(i.limit, 5)
         web.header("Cache-Control", "max-age=%d" % (24 * 3600))
-        return to_json(list(itertools.islice(utils.autocomplete_languages(i.q), i.limit)))
+        return to_json(
+            list(itertools.islice(utils.autocomplete_languages(i.q), i.limit))
+        )
 
 
 class works_autocomplete(autocomplete):
@@ -161,14 +164,20 @@ class topics_autocomplete(delegate.page):
         query = i.q
         work = web.ctx.site.get(i.work_key)
         subjects = work.get_subjects()
+
         if query != "":
+            threshold = 70  # Set a threshold for similarity
             filtered_subjects = []
             for subject in subjects:
-                if subject.lower().find(query.lower()) != -1:
+                # Use fuzz.ratio or fuzz.partial_ratio for fuzzy matching
+                if fuzz.partial_ratio(subject.lower(), query.lower()) >= threshold:
                     filtered_subjects.append(subject)
             subjects = filtered_subjects
 
-        subjects = [{"label": x, "value": x, 'key': f'/subjects/{x.replace(" ", "_")}'} for x in subjects]
+        subjects = [
+            {"label": x, "value": x, "key": f"/subjects/{x.replace(' ', '_')}"}
+            for x in subjects
+        ]
         return delegate.RawText(json.dumps(subjects), content_type="application/json")
 
 
